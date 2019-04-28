@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".dmkho.DMKhoActivity"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btnNhapHang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Them hoa don"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnXuatHang"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+    <Button
+        android:id="@+id/btnXuatHang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Xuat hang"
+
+        app:layout_constraintTop_toBottomOf="@id/btnNhapHang"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+    <Button
+        android:id="@+id/btnDSHoaDon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DS Hoa Don"
+
+        app:layout_constraintTop_toBottomOf="@id/btnXuatHang"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+
+    <Button
+        android:id="@+id/Danhmuc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Danh muc vat tu"
+
+        app:layout_constraintTop_toBottomOf="@id/btnXuatHang"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+</LinearLayout>
