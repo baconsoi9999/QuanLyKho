@@ -3,8 +3,8 @@ package com.example.quanlykho.main.viewmodel;
 import androidx.lifecycle.ViewModel;
 
 import com.example.quanlykho.room.VatTu;
-import com.example.quanlykho.room.entities.DMKho;
-import com.example.quanlykho.room.repository.RepositoryDMKho;
+import com.example.quanlykho.room.entities.DMVT;
+import com.example.quanlykho.room.repository.RepositoryDMVT;
 import com.example.quanlykho.utils.ShowLog;
 
 import java.util.List;
@@ -19,7 +19,8 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 
-public class KhoViewModel extends ViewModel {
+public class VTViewmodel extends ViewModel {
+
     public class InsertResponse{
         Throwable throwable;
         VatTu vatTu;
@@ -37,24 +38,24 @@ public class KhoViewModel extends ViewModel {
             return vatTu;
         }
     }
-    BehaviorSubject<List<DMKho>> dmKhoBehaviorSubject = BehaviorSubject.create();
-    BehaviorSubject<InsertResponse> insertBehaviorSubject = BehaviorSubject.create();
-
-    RepositoryDMKho repositoryDMKho;
+    RepositoryDMVT repositoryDMVT;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public KhoViewModel(RepositoryDMKho repositoryDMKho) {
-        this.repositoryDMKho = repositoryDMKho;
+    BehaviorSubject<List<DMVT>> dmKhoBehaviorSubject = BehaviorSubject.create();
+    BehaviorSubject<InsertResponse> insertBehaviorSubject = BehaviorSubject.create();
+
+    public VTViewmodel(RepositoryDMVT repositoryDMVT) {
+        this.repositoryDMVT = repositoryDMVT;
         getAll();
     }
 
     private void getAll(){
-        Disposable disposableGetAll = repositoryDMKho.getAll().observeOn(AndroidSchedulers.mainThread())
+        Disposable disposableGetAll = repositoryDMVT.getAll().observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(new Consumer<List<DMKho>>() {
+                .subscribe(new Consumer<List<DMVT>>() {
                     @Override
-                    public void accept(List<DMKho> dmKhos) throws Exception {
-                        dmKhoBehaviorSubject.onNext(dmKhos);
+                    public void accept(List<DMVT> dmvts) throws Exception {
+                        dmKhoBehaviorSubject.onNext(dmvts);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -66,11 +67,11 @@ public class KhoViewModel extends ViewModel {
         compositeDisposable.add(disposableGetAll);
     }
 
-    public void insert(DMKho dmKho){
+    public void insert(DMVT dmvt){
         Completable.fromAction(new Action() {
             @Override
             public void run() throws Exception {
-                repositoryDMKho.insert(dmKho);
+                repositoryDMVT.insert(dmvt);
             }
         }).observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
@@ -82,7 +83,7 @@ public class KhoViewModel extends ViewModel {
 
                     @Override
                     public void onComplete() {
-                        insertBehaviorSubject.onNext(new InsertResponse(dmKho,null));
+                        insertBehaviorSubject.onNext(new InsertResponse(dmvt,null));
                     }
 
                     @Override
@@ -92,15 +93,5 @@ public class KhoViewModel extends ViewModel {
                     }
                 });
     }
-    public BehaviorSubject<List<DMKho>> getDmKhoBehaviorSubject() {
-        return dmKhoBehaviorSubject;
-    }
 
-    public BehaviorSubject<InsertResponse> getInsertBehaviorSubject() {
-        return insertBehaviorSubject;
-    }
-
-    public void dispose(){
-        compositeDisposable.dispose();
-    }
 }

@@ -1,15 +1,19 @@
 package com.example.quanlykho.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.quanlykho.R;
+import com.example.quanlykho.hoa_don.HoaDonActivity;
 import com.example.quanlykho.main.adapter.VatTuPagerAdapter;
+import com.example.quanlykho.main.base.MainInterface;
 import com.example.quanlykho.main.view.DMKhoFragment;
 import com.example.quanlykho.main.view.DMVatTuFragment;
 import com.example.quanlykho.room.QLVTDatabase;
+import com.example.quanlykho.room.VatTu;
 import com.example.quanlykho.room.entities.DMKho;
 import com.example.quanlykho.room.entities.HoaDon;
 import com.example.quanlykho.room.repository.RepositoryDMKho;
@@ -29,7 +33,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainInterface {
 
     @BindView(R.id.tabPager)
     TabLayout tabPager;
@@ -64,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
 
         dmKhoFragment = new DMKhoFragment();
         dmVatTuFragment = new DMVatTuFragment();
+
+        dmKhoFragment.setMainInterface(this);
+
         vatTuPagerAdapter = new VatTuPagerAdapter(getSupportFragmentManager());
         ShowLog.d("init");
     }
@@ -166,5 +173,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         compositeDisposable.dispose();
+    }
+
+    @Override
+    public void navigateHoaDon(int position, VatTu vatTu) {
+        Intent intent = new Intent(this, HoaDonActivity.class);
+        startActivity(intent);
     }
 }

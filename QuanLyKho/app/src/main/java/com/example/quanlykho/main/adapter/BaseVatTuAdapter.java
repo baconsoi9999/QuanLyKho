@@ -12,6 +12,7 @@ import com.example.quanlykho.R;
 import com.example.quanlykho.room.VatTu;
 import com.example.quanlykho.room.entities.DMKho;
 import com.example.quanlykho.room.entities.DMVT;
+import com.example.quanlykho.utils.ShowLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,11 @@ import butterknife.ButterKnife;
 
 public class BaseVatTuAdapter extends RecyclerView.Adapter<BaseVatTuAdapter.Holder> {
     List<VatTu> vatTuList = new ArrayList<>();
+
+    private OnClickItem onClickItem;
+    public interface OnClickItem{
+        void onClick(int position,VatTu vatTu);
+    }
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -30,17 +36,24 @@ public class BaseVatTuAdapter extends RecyclerView.Adapter<BaseVatTuAdapter.Hold
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-
+        holder.bind(position);
     }
 
-    public void setVatTuList(List<VatTu> vatTuList) {
+    public void setOnClickItem(OnClickItem onClickItem) {
+        this.onClickItem = onClickItem;
+    }
+
+    public void setVatTuList(List<? extends VatTu> vatTuList) {
+        this.vatTuList.clear();
         this.vatTuList.addAll(vatTuList);
+        ShowLog.d("set list: " + this.vatTuList.size());
         notifyDataSetChanged();
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return R.layout.layout_item_base_vattu;
+    public void insert(VatTu vatTu){
+        this.vatTuList.add(vatTu);
+        ShowLog.d("size after insert: "+vatTuList.size());
+        notifyDataSetChanged();
     }
 
 
@@ -56,9 +69,19 @@ public class BaseVatTuAdapter extends RecyclerView.Adapter<BaseVatTuAdapter.Hold
         public Holder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
+            onClick();
+        }
+        private void onClick(){
+            itemView.setOnClickListener(v->{
+                if(onClickItem!=null){
+                    int position = getAdapterPosition();
+                    onClickItem.onClick(position,vatTuList.get(position));
+                }
+            });
         }
         public void bind(int position){
             VatTu vatTu = vatTuList.get(position);
+            ShowLog.d("binding adapter: " + position);
             if(vatTu instanceof DMVT){
                 DMVT dmvt = (DMVT) vatTu;
                 base_title_vattu.setText(dmvt.getTenVT());
