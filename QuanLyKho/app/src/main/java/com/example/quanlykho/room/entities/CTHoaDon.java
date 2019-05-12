@@ -51,7 +51,9 @@ public class CTHoaDon extends VatTu {
         this.soLuong = soLuong;
     }
 
-    public CTHoaDon(int soLuong) {
+    public CTHoaDon(int soHD, int maVT, int soLuong) {
+        this.soHD = soHD;
+        this.maVT = maVT;
         this.soLuong = soLuong;
     }
 }

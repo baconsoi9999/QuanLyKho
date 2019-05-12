@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements MainInterface {
     VatTuPagerAdapter vatTuPagerAdapter;
     DMKhoFragment dmKhoFragment;
     DMVatTuFragment dmVatTuFragment;
+
+    public static final String MAKHO = "MAKHO";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -177,7 +179,11 @@ public class MainActivity extends AppCompatActivity implements MainInterface {
 
     @Override
     public void navigateHoaDon(int position, VatTu vatTu) {
-        Intent intent = new Intent(this, HoaDonActivity.class);
-        startActivity(intent);
+        if(vatTu instanceof DMKho) {
+            DMKho dmKho = (DMKho) vatTu;
+            Intent intent = new Intent(this, HoaDonActivity.class);
+            intent.putExtra(MAKHO, dmKho.getMaKho());
+            startActivity(intent);
+        }
     }
 }

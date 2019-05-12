@@ -4,29 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".chi_tiet_hoa_don.ChiTietHoaDonActivity">
+    tools:context=".ThemHoaDonActivity"
+    android:orientation="vertical">
 
     <EditText
-        android:hint="So vat tu"
-        android:id="@+id/svt"
+        android:id="@+id/editSL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
-
-    <EditText
+        android:inputType="number"
+        android:hint="Nhap so luong"/>
+    <Spinner
+        android:id="@+id/spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="So luong vat tu" />
+        android:hint="Ho ten khach hang"/>
 
     <Button
+        android:id="@+id/btnSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OK" />
+        android:text="Save"/>
 
-    <Button
-        android:id="@+id/btnCancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Huy" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listCTHD"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>
