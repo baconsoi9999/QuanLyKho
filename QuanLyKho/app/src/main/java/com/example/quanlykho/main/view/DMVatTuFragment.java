@@ -22,9 +22,15 @@ import com.example.quanlykho.room.entities.DMVT;
 import com.example.quanlykho.room.repository.RepositoryDMVT;
 import com.example.quanlykho.utils.ShowLog;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class DMVatTuFragment extends Fragment {
 
@@ -48,6 +54,8 @@ public class DMVatTuFragment extends Fragment {
         ButterKnife.bind(this,view);
         ShowLog.d("create view");
         init();
+        listener();
+        onClick();
 
         return view;
     }
@@ -75,9 +83,47 @@ public class DMVatTuFragment extends Fragment {
         vtViewmodel = new VTViewmodel(repositoryDMVT);
 
     }
+    private void onClick(){
+        btnAddVatTu.setOnClickListener(v->{
+            showDialogAddVT();
+        });
+    }
 
+    private void listener(){
+        Disposable disposableVTGetAll = vtViewmodel.getDmKhoBehaviorSubject().observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Consumer<List<DMVT>>() {
+                    @Override
+                    public void accept(List<DMVT> dmvts) throws Exception {
+                        vatTuAdapter.setVatTuList(dmvts);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        ShowLog.d("error listener kho: " + throwable.getMessage());
+                    }
+                });
 
-    private void showDialogAddKho(){
+        Disposable disposableVTInsert = vtViewmodel.getInsertBehaviorSubject().observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Consumer<VTViewmodel.InsertResponse>() {
+                    @Override
+                    public void accept(VTViewmodel.InsertResponse insertResponse) throws Exception {
+                        if(insertResponse.getVatTu()!=null){
+                            vatTuAdapter.insert(insertResponse.getVatTu());
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        ShowLog.d("error listener insert: " + throwable.getMessage());
+                    }
+                });
+        compositeDisposable.add(disposableVTGetAll);
+        compositeDisposable.add(disposableVTInsert);
+    }
+
+    private void showDialogAddVT(){
         Dialog dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.layout_addvt);
         EditText editName,editPrice;

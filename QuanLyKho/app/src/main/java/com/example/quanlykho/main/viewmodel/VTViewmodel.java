@@ -94,4 +94,11 @@ public class VTViewmodel extends ViewModel {
                 });
     }
 
+    public BehaviorSubject<List<DMVT>> getDmKhoBehaviorSubject() {
+        return dmKhoBehaviorSubject;
+    }
+
+    public BehaviorSubject<InsertResponse> getInsertBehaviorSubject() {
+        return insertBehaviorSubject;
+    }
 }
