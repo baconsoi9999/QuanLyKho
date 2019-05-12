@@ -1,12 +1,14 @@
 package com.example.quanlykho.room.entities;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
-import android.arch.persistence.room.PrimaryKey;
+
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
 
 import com.example.quanlykho.room.VatTu;
 
-import static android.arch.persistence.room.ForeignKey.CASCADE;
+import static androidx.room.ForeignKey.CASCADE;
+
 
 @Entity(foreignKeys = @ForeignKey(
         entity = DMKho.class,

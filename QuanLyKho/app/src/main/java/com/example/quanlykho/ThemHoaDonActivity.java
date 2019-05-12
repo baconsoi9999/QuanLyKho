@@ -1,10 +1,13 @@
 package com.example.quanlykho;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.quanlykho.chi_tiet_hoa_don.ChiTietHoaDonActivity;
 
 public class ThemHoaDonActivity extends AppCompatActivity {
 
@@ -31,7 +34,7 @@ public class ThemHoaDonActivity extends AppCompatActivity {
 
     }
     void navigate(){
-        startActivity(new Intent(this,ChiTietHoaDonActivity.class));
+        startActivity(new Intent(this, ChiTietHoaDonActivity.class));
     }
 
 }

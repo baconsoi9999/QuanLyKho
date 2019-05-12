@@ -1,7 +1,10 @@
-package com.example.quanlykho;
+package com.example.quanlykho.dm_vattu;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.quanlykho.R;
 
 public class DMVATTUACtivity extends AppCompatActivity {
 

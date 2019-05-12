@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DMVATTUACtivity">
+    tools:context=".dm_vattu.DMVATTUACtivity">
 
     <ListView
         android:layout_width="wrap_content"

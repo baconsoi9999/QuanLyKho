@@ -1,22 +1,27 @@
-package com.example.quanlykho;
+package com.example.quanlykho.main;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Button;
 
-import com.example.quanlykho.dmkho.DMKhoActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
+import com.example.quanlykho.R;
+import com.example.quanlykho.main.adapter.VatTuPagerAdapter;
+import com.example.quanlykho.main.view.DMKhoFragment;
+import com.example.quanlykho.main.view.DMVatTuFragment;
 import com.example.quanlykho.room.QLVTDatabase;
 import com.example.quanlykho.room.entities.DMKho;
 import com.example.quanlykho.room.entities.HoaDon;
 import com.example.quanlykho.room.repository.RepositoryDMKho;
 import com.example.quanlykho.room.repository.RepositoryHoaDon;
 import com.example.quanlykho.utils.ShowLog;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.Completable;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -26,19 +31,30 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
+    @BindView(R.id.tabPager)
+    TabLayout tabPager;
+    @BindView(R.id.pagerVatTu)
+    ViewPager pagerVatTu;
+
     QLVTDatabase qlvtDatabase;
     RepositoryDMKho repositoryDMKho;
     RepositoryHoaDon repositoryHoaDon;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+    VatTuPagerAdapter vatTuPagerAdapter;
+    DMKhoFragment dmKhoFragment;
+    DMVatTuFragment dmVatTuFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         init();
+        setupViewPager();
      //   insertDMKho(new DMKho("kho4","kho4_dc4"));
-        get();
-        getHoaDon();
+   //     get();
+ //       getHoaDon();
         //startActivity(new Intent(this, DMKhoActivity.class));
     }
     private void  init(){
@@ -46,7 +62,21 @@ public class MainActivity extends AppCompatActivity {
         repositoryDMKho = new RepositoryDMKho(qlvtDatabase.daoDMKho());
         repositoryHoaDon = new RepositoryHoaDon(qlvtDatabase.daoHoaDon());
 
+        dmKhoFragment = new DMKhoFragment();
+        dmVatTuFragment = new DMVatTuFragment();
+        vatTuPagerAdapter = new VatTuPagerAdapter(getSupportFragmentManager());
         ShowLog.d("init");
+    }
+    private void setupViewPager(){
+        vatTuPagerAdapter.addFragment(dmKhoFragment);
+        vatTuPagerAdapter.addFragment(dmVatTuFragment);
+
+        pagerVatTu.setAdapter(vatTuPagerAdapter);
+        tabPager.setupWithViewPager(pagerVatTu);
+
+        pagerVatTu.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabPager));
+
+        tabPager.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(pagerVatTu));
     }
     private void insertDMKho(final DMKho dmKho){
 

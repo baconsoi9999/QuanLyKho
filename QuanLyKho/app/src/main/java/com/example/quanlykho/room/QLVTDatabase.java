@@ -1,9 +1,10 @@
 package com.example.quanlykho.room;
 
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.Room;
-import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
+
+import androidx.room.Database;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
 
 import com.example.quanlykho.room.dao.DaoCTHoaDon;
 import com.example.quanlykho.room.dao.DaoDMKho;
@@ -13,6 +14,8 @@ import com.example.quanlykho.room.entities.CTHoaDon;
 import com.example.quanlykho.room.entities.DMKho;
 import com.example.quanlykho.room.entities.DMVT;
 import com.example.quanlykho.room.entities.HoaDon;
+
+
 
 @Database(entities = {CTHoaDon.class, DMKho.class, DMVT.class, HoaDon.class},version = 2)
 public abstract  class QLVTDatabase extends RoomDatabase {

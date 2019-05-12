@@ -1,12 +1,12 @@
 package com.example.quanlykho.dmkho;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.quanlykho.HoaDonActivity;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.quanlykho.R;
 import com.example.quanlykho.ThemHoaDonActivity;
 
